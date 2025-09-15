@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getAnuncioById, deleteAnuncio } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
 
 function DetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const [anuncio, setAnuncio] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -131,7 +133,7 @@ function DetailsPage() {
                 <div>
                   <span className="text-gray-500">Data do anúncio:</span>
                   <span className="ml-2 font-medium">
-                    {new Date(anuncio.data_anuncio).toLocaleDateString('pt-BR')}
+                    {anuncio.data_anuncio && anuncio.data_anuncio.toDate().toLocaleDateString('pt-BR')}
                   </span>
                 </div>
                 <div>
@@ -145,20 +147,22 @@ function DetailsPage() {
                 <p className="text-gray-700">{anuncio.descricao || 'Sem descrição disponível.'}</p>
               </div>
               
-              <div className="flex space-x-3">
-                <Link
-                  to={`/editar-anuncio/${anuncio.id}`}
-                  className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md text-center transition-colors"
-                >
-                  Editar Anúncio
-                </Link>
-                <button
-                  onClick={() => setShowDeleteModal(true)}
-                  className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition-colors"
-                >
-                  Excluir Anúncio
-                </button>
-              </div>
+              {currentUser && currentUser.uid === anuncio.userId && (
+                <div className="flex space-x-3">
+                  <Link
+                    to={`/editar-anuncio/${anuncio.id}`}
+                    className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md text-center transition-colors"
+                  >
+                    Editar Anúncio
+                  </Link>
+                  <button
+                    onClick={() => setShowDeleteModal(true)}
+                    className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition-colors"
+                  >
+                    Excluir Anúncio
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

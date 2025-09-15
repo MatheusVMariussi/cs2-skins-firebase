@@ -10,41 +10,6 @@ Este projeto é um sistema web completo para anúncios de skins de Counter-Strik
 - Cadastro de novas skins para venda
 - Edição e exclusão de anúncios existentes
 
-## Estrutura do Projeto
-
-O projeto está dividido em duas partes principais:
-
-- `/frontend`: Aplicação React
-- `/backend`: API RESTful com Node.js e Express
-
-## Requisitos
-
-- Node.js
-- MySQL
-
-### Backend
-
-1. Navegue até o diretório do backend:
-
-```
-cd backend
-```
-
-2. Instale as dependências:
-
-```
-npm install
-```
-
-
-3. Inicie o servidor:
-
-```
-npm start
-```
-
-O servidor estará rodando em `http://localhost:3001`.
-
 ### Frontend
 
 1. Navegue até o diretório do frontend:
@@ -74,12 +39,6 @@ A aplicação estará disponível em `http://localhost:3000`.
 - React Router
 - Axios
 - Tailwind CSS
-
-### Backend
-- Node.js
-- Express
-- MySQL
-- CORS
 
 ## Autor
 

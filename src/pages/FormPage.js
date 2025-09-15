@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getAnuncioById, createAnuncio, updateAnuncio } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
 
 const ARMAS = [
   'AK-47', 'M4A4', 'M4A1-S', 'AWP', 'Desert Eagle', 'USP-S', 
@@ -18,7 +19,8 @@ function FormPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const isEditMode = !!id;
-  
+  const { currentUser } = useAuth();
+
   const [formData, setFormData] = useState({
     nome_skin: '',
     arma: '',
@@ -27,7 +29,6 @@ function FormPage() {
     floatSkin: '',
     descricao: '',
     imagem_url: '',
-    vendedor: ''
   });
   
   const [loading, setLoading] = useState(isEditMode);
@@ -104,10 +105,6 @@ function FormPage() {
       newErrors.imagem_url = 'URL da imagem é obrigatória';
     }
     
-    if (!formData.vendedor.trim()) {
-      newErrors.vendedor = 'Nome do vendedor é obrigatório';
-    }
-    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -126,16 +123,17 @@ function FormPage() {
       const dataToSubmit = {
         ...formData,
         valor: parseFloat(formData.valor),
-        floatSkin: parseFloat(formData.floatSkin)
+        floatSkin: parseFloat(formData.floatSkin),
+        vendedor: currentUser.displayName || currentUser.email, 
       };
       
       if (isEditMode) {
-        await updateAnuncio(id, dataToSubmit);
-        alert('Anúncio atualizado com sucesso!');
-      } else {
-        await createAnuncio(dataToSubmit);
-        alert('Anúncio criado com sucesso!');
-      }
+      await updateAnuncio(id, dataToSubmit);
+      alert('Anúncio atualizado com sucesso!');
+    } else {
+      await createAnuncio(dataToSubmit, currentUser.uid); 
+      alert('Anúncio criado com sucesso!');
+    }
       
       navigate('/');
     } catch (err) {
@@ -266,7 +264,7 @@ function FormPage() {
               </label>
               <input
                 type="number"
-                name="float"
+                name="floatSkin"
                 value={formData.floatSkin}
                 onChange={handleChange}
                 step="0.0001"
@@ -302,25 +300,6 @@ function FormPage() {
               )}
             </div>
             
-            {/* Nome do Vendedor */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Nome do Vendedor *
-              </label>
-              <input
-                type="text"
-                name="vendedor"
-                value={formData.vendedor}
-                onChange={handleChange}
-                className={`w-full p-2 border rounded-md ${
-                  errors.vendedor ? 'border-red-500' : 'border-gray-300'
-                } focus:ring-orange-500 focus:border-orange-500`}
-                placeholder="Ex: João Silva"
-              />
-              {errors.vendedor && (
-                <p className="mt-1 text-sm text-red-600">{errors.vendedor}</p>
-              )}
-            </div>
           </div>
           
           {/* Descrição */}
