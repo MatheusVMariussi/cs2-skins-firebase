@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/cs2-skins-firebase/static/css/main.96005b5f.css",
-    "main.js": "/cs2-skins-firebase/static/js/main.87001bdf.js",
+    "main.js": "/cs2-skins-firebase/static/js/main.db7216e4.js",
     "index.html": "/cs2-skins-firebase/index.html",
     "main.96005b5f.css.map": "/cs2-skins-firebase/static/css/main.96005b5f.css.map",
-    "main.87001bdf.js.map": "/cs2-skins-firebase/static/js/main.87001bdf.js.map"
+    "main.db7216e4.js.map": "/cs2-skins-firebase/static/js/main.db7216e4.js.map"
   },
   "entrypoints": [
     "static/css/main.96005b5f.css",
-    "static/js/main.87001bdf.js"
+    "static/js/main.db7216e4.js"
   ]
 }
